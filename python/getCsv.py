@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import datetime
 from sys import argv
 
 with open('../raw_data/twitter-melb-after.json', 'r') as f:
@@ -12,18 +13,18 @@ length = int(argv[1])
 print(length)
 
 month = {
-  "Jan": "01",
-  "Feb": "02",
-  "Mar": "03",
-  "Apr": "04",
-  "May": "05",
-  "Jun": "06",
-  "Jul": "07",
-  "Aug": "08",
-  "Sep": "09",
-  "Oct": "10",
-  "Nov": "11",
-  "Dec": "12"
+  "Jan": 1,
+  "Feb": 2,
+  "Mar": 3,
+  "Apr": 4,
+  "May": 5,
+  "Jun": 6,
+  "Jul": 7,
+  "Aug": 8,
+  "Sep": 9,
+  "Oct": 10,
+  "Nov": 11,
+  "Dec": 12
 }
 
 index = 0
@@ -34,12 +35,12 @@ for row in row_data['rows']:
     if row['doc']['coordinates'] and \
         row['doc']['coordinates']['type']=='Point' and row['doc']['user']['friends_count'] and \
             row['doc']['created_at'] and row['doc']['metadata']['iso_language_code']:
-        # month_ = month(row['doc']['created_at'].split()[])
-        time_ = row['doc']['created_at'].split()[1:4]
-        time_[0] = month[time_[0]]
-        year = row['doc']['created_at'].split()[-1]
-        time_.append(year)
-        df.loc[index, 'time'] = ' '.join(time_)
+
+        time_list = row['doc']['created_at'].split()
+        
+        time_ = datetime.datetime(int(time_list[-1]), month[time_list[1]], int(time_list[2]), int(time_list[3].split(":")[0]), int(time_list[3].split(":")[1]), int(time_list[3].split(":")[2]))    
+
+        df.loc[index, 'time'] = time_
         df.loc[index, 'friends_count'] = row['doc']['user']['friends_count']
         df.loc[index, 'lat'] = row['doc']['coordinates']['coordinates'][1]
         df.loc[index, 'long'] = row['doc']['coordinates']['coordinates'][0]
