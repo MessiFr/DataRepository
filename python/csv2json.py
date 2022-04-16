@@ -15,7 +15,7 @@ reader = csv.DictReader( csvfile, fieldnames)
 data = {
   "fields": [
     {"name": "index", "format": "", "type": "real"},
-    {"name": "time", "format": "MM dd HH:mm yyyy", "type": "timestamp"},
+    {"name": "time", "format": "yyyy-MM-dd HH:mm:ss", "type": "timestamp"},
     {"name": "friends_count", "format": "", "type": "real"},
     {"name": "lat", "format": "", "type": "real"},
     {"name": "long", "format": "", "type": "real"},
